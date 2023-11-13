@@ -52,6 +52,8 @@ char **token_shz(char *input)
 	while (tok)
 	{
 		user_cmad[i] = _strdup(tok);
+		if (!user_cmad[i])
+			free_comd(user_cmad);
 		tok = strtok(NULL, delimit);
 		i++;
 	}

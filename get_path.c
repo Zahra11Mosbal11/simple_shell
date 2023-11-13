@@ -46,6 +46,7 @@ char *search_path(char *command)
 		{
 			if (stat(command, &buf) == 0)
 				return (_strdup(command));
+			
 			return (NULL);
 		}
 	}
@@ -53,7 +54,7 @@ char *search_path(char *command)
 	path_dr = strtok(path, ":");
 	while (path_dr)
 	{
-		exe_file_path = malloc(_strlen(path_dr) * _strlen(command) + 2);
+		exe_file_path = malloc(_strlen(path_dr) + _strlen(command) + 2);
 		if (exe_file_path)
 		{
 			_strcpy(exe_file_path, path_dr);
@@ -65,9 +66,9 @@ char *search_path(char *command)
 				return (exe_file_path);
 			}
 			free(exe_file_path);
-			path_dr = strtok(NULL, ":");
 		}
+		path_dr = strtok(NULL, ":");
 	}
-		free(path);
-		return (NULL);
+	free(path);
+	return (NULL);
 }

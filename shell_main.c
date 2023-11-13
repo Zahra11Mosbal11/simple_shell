@@ -22,11 +22,16 @@ int main(int ac, char **argv)
 		}
 
 		user_comd = token_shz(input);
+
 		if (!user_comd)
 			continue;
-		if (check_built(user_comd[0]))
+
+
+		if (user_comd[0] != NULL && check_built(user_comd[0]))
 			get_builtin(user_comd, argv, &status);
-		else
+		else if (user_comd[0] != NULL)
 			status = execute_comd(user_comd, argv);
+
 	}
+
 }
