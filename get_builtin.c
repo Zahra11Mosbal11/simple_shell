@@ -1,108 +1,65 @@
 #include "shell.h"
 /**
- * get_builtin - to handle all builtin
- * @argv: the command
- * Return: 0 if success
+ * check_built - to check the builtins
+ * @command: the command
+ * Return: 1 if success
  */
-int get_builtin(char **argv)
+int check_built(char *command)
 {
-	if (_strcmp(argv[0], "env") == 0)
-		print_env();
-	else if (_strcmp(argv[0], "setenv") == 0)
-	{
-		char *name = argv[1];
-		char *value = argv[2];
-		int overwrite = 0;
+	char *bui[] = { "exit", "env", NULL };
 
-		if (_getenv(name) != NULL)
-			overwrite = 1;
-		_setenv(name, value, overwrite);
+	int i;
+	for (i = 0; bui[i]; i++)
+	{
+		if (_strcmp(command, bui[i]) == 0)
+			return (1);
 	}
 	return (0);
+}
+/**
+ * get_builtin - to handle all builtin
+ * @command: the command
+ * @status: the status
+ * @argv: the argmment
+ * Return: void
+ */
+void get_builtin(char **command, char **argv, int *status)
+{
+	if (_strcmp(command[0], "exit") == 0)
+		exit_sh(command, argv, status);
+	else if (_strcmp(command[0], "env") == 0)
+		print_env(command, status);
+
+}
+/**
+ * exit_sh - to exit from the shell
+ * @command:  the command
+ * @argv: the argmment
+ * @status: the status
+ * Return: void
+ */
+void exit_sh(char **command,  char **argv, int *status)
+{
+	(void) argv;
+	free_comd(command);
+	exit(*status);
 }
 /**
  * print_env - that print the each environment variable
  *
+ * @command:  the command
+ * @status: the status
  * Return: void;
  */
-void print_env(void)
+void print_env(char **command, int *status)
 {
 	int i;
 
-	for (i = 0; environ[i] != NULL; i++)
+	for (i = 0; environ[i]; i++)
 	{
 		write(STDOUT_FILENO, environ[i], _strlen(environ[i]));
 		write(STDOUT_FILENO, "\n", 1);
 	}
+	free_comd(command);
+	(*status) = 0;
 }
-/**
- * *_getenv - Check if the environment variable already exists
- * @name_env: the name of environment variable
- * Return: the value of it
- */
-char *_getenv(char *env_var)
-{
-	int i = 0;
-	char *key = NULL;
-
-	while (environ[i])
-	{
-		/* Tokenize the environment variable using "=" as the delimiter*/
-		key = strtok(environ[i], "=");
-
-		if (key != NULL)
-		{
-			/*Compare the key with the target environment variable name*/
-			if (_strcmp(env_var, key) == 0)
-			{
-				/* If a match is found, return the corresponding value*/
-				return (strtok(NULL, "\n*"));
-			}
-		}
-		i++;
-	}
-
-	/* If the environment variable is not found, return NULL*/
-	return (NULL);
-}
-/**
- * _setenv - Initialize a new environment variable, or modify an existing one
- * @varName: name of environment variable
- * @varValue: value of environment variable
- * @overwrite: 1 if if the environment variable already exists
- * Return: 0 in success
- */
-int _setenv(char *varName, char *varValue, int overwrite)
-{
-	int i = 0, len = 0;
-	char *new_env;
-
-	if (!varName || !varValue)
-		return (-1);
-	while (environ[i])
-	{
-		len = _strlen(varName);
-		if (_strncmp(environ[i], varName, len) == 0)
-		{
-			if (overwrite)
-			{
-				new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
-				_strcpy(new_env, varName);
-				_strcat(new_env, "=");
-				_strcat(new_env, varValue);
-				environ[i] = new_env;
-				return (0);
-			}
-			return (0);
-		}
-		i++;
-	}
-	new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
-	_strcpy(new_env, varName);
-	_strcat(new_env, "=");
-	_strcat(new_env, varValue);
-	environ[i] = new_env;
-	environ[i + 1] = NULL;
-	return (0);
-}
-

@@ -8,31 +8,31 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <errno.h>
 
 extern char **environ;
 
-/*main functions*/
-void execute_command(char **argv);
-char *search_path(char *command);
+/* toem_string.c */
 
-/*helping functions*/
-/*String functions*/
-char *_strcpy(char *dest, char *src);
+int _strlen(char *s);
+int _strcmp(char *s1, char *s2);
 char *_strcat(char *dest, char *src);
-int _strlen(char *str);
-int strtoknum(char *str, const char *delim);
-char *_strdup(char *s);
-int _strncmp(char *cs, char *ct, size_t count);
-int _strcmp(char *s1, char *s2);/*in helping file*/
-
-/*other functions*/
-void argv_store(char **argv, char *str, const char *delim);
+char *_strcpy(char *dest, char *sec);
+char *_strdup(const char *str);
 void _print(char *msg);
-char *_memcpy(char *dest, char *src, unsigned int n);
-
-/*handle builtin*/
-void print_env(void);
-int get_builtin(char **argv);
+/*main functions*/
+char *_read(void);
+char **token_shz(char *input);
+void free_comd(char **comd);
+int execute_comd(char **user_comd, char **argv);
+void _printerr(char *name, char *comd);
 char *_getenv(char *env_var);
-int _setenv(char *varName, char *varValue, int overwrite);
+char *search_path(char *command);
+/*handle builtin*/
+void get_builtin(char **command, char **argv, int *status);
+void exit_sh(char **command,  char **argv, int *status);
+void print_env(char **command, int *status);
+int check_built(char *command);
 #endif /* SHELL_H */
+

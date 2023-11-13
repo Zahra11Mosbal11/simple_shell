@@ -1,49 +1,73 @@
 #include "shell.h"
 /**
+ * *_getenv - Check if the environment variable already exists
+ * @name_env: the name of environment variable
+ * Return: the value of it
+ */
+char *_getenv(char *env_var)
+{
+	int i = 0;
+	char *key, *_cp, *valu, *env;
+
+	while (environ[i])
+	{
+		/* Tokenize the environment variable using "=" as the delimiter*/
+		_cp = _strdup(environ[i]);
+		key = strtok(_cp, "=");
+
+		if (_strcmp(key, env_var) == 0)
+		{/*Compare the key with the target environment variable name*/
+
+			valu = strtok(NULL, "\n");
+			env = _strdup(valu);
+			free(_cp);
+			return (env);
+		}
+		free(_cp);
+		i++;
+	}
+	/* If the environment variable is not found, return NULL*/
+	return (NULL);
+}
+/**
  * search_path - search command path in environment path.
  * @command: command to search for.
  * Return: command full path.
  */
 char *search_path(char *command)
 {
-	char *path, *path_cp, *token, *exe_file_path;
-	int cmd_len, dir_len;
-	struct stat buffer;
+	char *path, *path_dr, *exe_file_path;
+	int i;
+	struct stat buf;
 
-	path = getenv("PATH");
-	if (path)
+	for (i = 0; command[i]; i++)
 	{
-		path_cp = _strdup(path);
-		cmd_len = _strlen(command);
-		/* Let's break down the path variable and get all the directories available*/
-		token = strtok(path_cp, ":");
-		while (token != NULL)
+		if (command[i] == '/')
 		{
-			dir_len = _strlen(token);
-			exe_file_path = malloc(cmd_len + dir_len + 2);
-			/* build command by copying directory path and concatenate command*/
-			_strcpy(exe_file_path, token);
+			if (stat(command, &buf) == 0)
+				return (_strdup(command));
+			return (NULL);
+		}
+	}
+	path = _getenv("PATH");
+	path_dr = strtok(path, ":");
+	while (path_dr)
+	{
+		exe_file_path = malloc(_strlen(path_dr) * _strlen(command) + 2);
+		if (exe_file_path)
+		{
+			_strcpy(exe_file_path, path_dr);
 			_strcat(exe_file_path, "/");
 			_strcat(exe_file_path, command);
-			_strcat(exe_file_path, "\0");
-			if (stat(exe_file_path, &buffer) == 0)
+			if (stat(exe_file_path, &buf) == 0)
 			{
-				free(path_cp);
+				free(path);
 				return (exe_file_path);
 			}
-			else
-			{
-				free(exe_file_path);
-				token = strtok(NULL, ":");
-			}
+			free(exe_file_path);
+			path_dr = strtok(NULL, ":");
 		}
-		free(path_cp);
-		/* before exit check if the command itself is a exe_file_path that exists*/
-		if (stat(command, &buffer) == 0)
-		{
-			return (command);
-		}
-		return (NULL);
 	}
-	return (NULL);
+		free(path);
+		return (NULL);
 }

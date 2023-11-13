@@ -1,45 +1,129 @@
 #include "shell.h"
-
 /**
- * execute_command - execute command.
- *
- * @argv: array with full command.
- * Return: command full path.
+ * _read - start
+ * Return: the input
  */
-
-void execute_command(char **argv)
+char *_read(void)
 {
-	char *command = NULL, *exe_command = NULL;
-	pid_t cpid = fork();
+	char *input = NULL;
+	size_t len = 0;
+	ssize_t n;
 
-	if (cpid == -1)
+	if (isatty(STDIN_FILENO))
+		_print("$ ");
+	n = getline(&input, &len, stdin);
+	if (n == -1)
 	{
-		_print("Error forking process.\n");
-		exit(EXIT_FAILURE);
+		free(input);
+		return (NULL);
 	}
-	else if (cpid == 0)
+	return (input);
+}
+/**
+ * token_shz - to do the token
+ * @input: the user command
+ * Return: the command after token
+ */
+char **token_shz(char *input)
+{
+	char *tok = NULL, *cp_input =  NULL;
+	char **user_cmad =  NULL;
+	int cpi = 0, i = 0;
+	const char *delimit = " \t\n";
+
+	if (!input)
+		return (NULL);
+	cp_input = _strdup(input);
+	tok = strtok(cp_input, delimit);
+	while (tok)
 	{
+		cpi++;
+		tok = strtok(NULL, delimit);
+	}
+	free(cp_input);
 
-		if (argv)
+	user_cmad = malloc(sizeof(char *) * (cpi + 1));
+	if (!user_cmad)
+	{
+		free(input);
+		return (NULL);
+	}
+	tok = strtok(input, delimit);
+	while (tok)
+	{
+		user_cmad[i] = _strdup(tok);
+		tok = strtok(NULL, delimit);
+		i++;
+	}
+	free(input);
+	user_cmad[i] = NULL;
+	return (user_cmad);
+}
+/**
+ * execute_comd - to do the execution
+ * @user_comd: the command
+ * @argv: the argommant
+ * Return: the status
+ */
+int execute_comd(char **user_comd, char **argv)
+{
+	char *exe_file_path;
+	pid_t chip;
+	int status;
+
+	exe_file_path = search_path(user_comd[0]);
+	if (!exe_file_path)
+	{
+		_printerr(argv[0], user_comd[0]);
+		free_comd(user_comd);
+		return (127);
+	}
+
+	chip = fork();
+	if (chip == 0)
+	{
+		if (execve(exe_file_path , user_comd, environ) == -1)
 		{
-			/* get the command */
-			command = argv[0];
-
-			/* generate the path to this command before passing it to execve */
-			exe_command = search_path(command);
-
-			/* execute the actual command with execve */
-			if (execve(exe_command, argv, NULL) == -1)
-			{
-				perror("Error:");
-			}
+			free(exe_file_path );
+			free_comd(user_comd);
 		}
-
 	}
 	else
 	{
-		/* Parent process*/
-		wait(NULL);
+		waitpid(chip, &status, 0);
+		free_comd(user_comd);
+		free(exe_file_path );
 	}
+	return (WEXITSTATUS(status));
+}
+/**
+ * free_comd - to free
+ * @comd: the array of command
+ * Return: void
+ */
+void free_comd(char **comd)
+{
+	int i;
 
+	if (!comd)
+		return;
+	for (i = 0; comd[i]; i++)
+		free(comd[i]), comd[i] = NULL;
+	free(comd), comd = NULL;
+}
+/**
+ * _printerr - to handle the error
+ * @name: the name of shell
+ * @comd: the command
+ * Return: void
+ */
+void _printerr(char *name, char *comd)
+{
+	_print(name);
+	_print(": ");
+	_print("1");
+	_print(": ");
+	_print(comd);
+	_print(": ");
+	_print("not found\n");
 }
