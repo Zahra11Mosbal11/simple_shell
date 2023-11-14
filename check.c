@@ -69,22 +69,54 @@ int _atoi(char *s)
 
 
 /**
-  * handle_comment - Handles the '#' in the input
+  * _comment - Handles the '#' in the input
   * @input: Input value
   *
   * Return: The stripped down input
   */
 
-char *handle_comment(char *input)
+char *_comment(char *input)
 {
-	char *comment_pos;
+	char *comment;
 
-	comment_pos = strstr(input, " #");
+	comment = _strstr(input, " #");
 
-	if (comment_pos)
+	if (comment)
 	{
-		*comment_pos = '\0';
+		*comment = '\0';
 	}
 
 	return (input);
+}
+
+/**
+ * _strstr - Check characters
+ * @haystack: An input character
+ * @needle: character to search for
+ * Description: function swap words
+ * Return: destination
+ */
+char *_strstr(char *haystack, char *needle)
+{
+	int i, j, c;
+
+	i = 0;
+	c = 0;
+	while (haystack[i] != '\0')
+	{
+		j = 0;
+		while (needle[j + c] != '\0' && haystack[i + c] != '\0'
+		       && needle[j + c] == haystack[i + c])
+		{
+			if (haystack[i + c] != needle[j + c])
+				break;
+			c++;
+		}
+		if (needle[j + c] == '\0')
+			return (&haystack[i]);
+		j++;
+		i++;
+	}
+
+	return (NULL);
 }
