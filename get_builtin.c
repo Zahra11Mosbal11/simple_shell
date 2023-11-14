@@ -40,18 +40,22 @@ void get_builtin(char **command, char **argv, int *status)
  */
 void exit_sh(char **command,  char **argv, int *status)
 {
+	int stat = 0;
+
 	(void) argv;
 	(void) status;
 	
 	if (command[1] == NULL)
 	{
-		exit(0);
+		exit(stat);
 	}
 	else
 		if (only_digit(command[1]))
 		{
+			stat = _atoi(command[1]);
+			printf("exit");
 			free_comd(command);
-			exit(_atoi(command[1]));
+			exit(stat);
 		}
 		else
 			perror("Illegal number");
