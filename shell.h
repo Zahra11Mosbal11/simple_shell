@@ -36,7 +36,7 @@ void print_env(char **command, int *status);
 int check_built(char *command);
 
 int _isdigit(char c);
-int only-digit(char *c);
+int only_digit(char *c);
 int _atoi(char *s);
 
 #endif /* SHELL_H */

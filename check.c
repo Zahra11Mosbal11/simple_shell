@@ -27,7 +27,7 @@ int _isdigit(char c)
  * @c: An input string
  * Return: 1 if digit or 0 if not
 */
-int only-digit(char *c)
+int only_digit(char *c)
 {
 	while (*c)
 		if (_isdigit(*c++) == 0)
