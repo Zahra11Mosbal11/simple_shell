@@ -40,9 +40,22 @@ void get_builtin(char **command, char **argv, int *status)
  */
 void exit_sh(char **command,  char **argv, int *status)
 {
+	int st;
 	(void) argv;
-	free_comd(command);
-	exit(*status);
+	
+	if (command[1] == NULL)
+	{
+		exit();
+	}
+	else
+		if (only-digit(command[1])
+		{
+			st = _atoi(command[1]);
+			free_comd(command);
+			exit(st);
+		}
+		else
+			perror("Illegal number");
 }
 /**
  * print_env - that print the each environment variable

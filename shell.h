@@ -34,5 +34,10 @@ void get_builtin(char **command, char **argv, int *status);
 void exit_sh(char **command,  char **argv, int *status);
 void print_env(char **command, int *status);
 int check_built(char *command);
+
+int _isdigit(char c);
+int only-digit(char *c);
+int _atoi(char *s);
+
 #endif /* SHELL_H */
 
