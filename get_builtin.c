@@ -44,7 +44,7 @@ void exit_sh(char **command,  char **argv, int *status)
 	
 	if (command[1] == NULL)
 	{
-		exit();
+		exit(0);
 	}
 	else
 		if (only_digit(command[1]))
