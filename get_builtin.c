@@ -41,6 +41,7 @@ void get_builtin(char **command, char **argv, int *status)
 void exit_sh(char **command,  char **argv, int *status)
 {
 	(void) argv;
+	(void) status;
 	
 	if (command[1] == NULL)
 	{
