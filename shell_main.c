@@ -7,7 +7,7 @@
  */
 int main(int ac, char **argv)
 {
-	char *input = NULL, **user_comd = NULL, input1 = NULL;
+	char *input = NULL, **user_comd = NULL, *input1 = NULL;
 	int status = 0;
 	(void) ac;
 
