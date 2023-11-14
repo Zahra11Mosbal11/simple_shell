@@ -26,28 +26,24 @@ char *_read(void)
  */
 char **token_shz(char *input)
 {
-	char *tok = NULL, *cp_input =  NULL;
-	char **user_cmad =  NULL;
+	char *tok = NULL, *cp_input =  _strdup(input), **user_cmad =  NULL;
 	int cpi = 0, i = 0;
 	const char *delimit = " \t\n";
 
 	if (!input)
 		return (NULL);
-	cp_input = _strdup(input);
 	tok = strtok(cp_input, delimit);
-	if ( tok == NULL)
+	if (tok == NULL)
 	{
 		free(input);
 		free(cp_input);
 		return (NULL);
 	}
-
 	while (tok)
 	{
 		cpi++;
 		tok = strtok(NULL, delimit);
 	}
-
 	user_cmad = malloc(sizeof(char *) * (cpi + 1));
 	if (!user_cmad)
 	{
@@ -96,9 +92,9 @@ int execute_comd(char **user_comd, char **argv)
 	chip = fork();
 	if (chip == 0)
 	{
-		if (execve(exe_file_path , user_comd, environ) == -1)
+		if (execve(exe_file_path, user_comd, environ) == -1)
 		{
-			free(exe_file_path );
+			free(exe_file_path);
 			free_comd(user_comd);
 		}
 	}
@@ -106,7 +102,7 @@ int execute_comd(char **user_comd, char **argv)
 	{
 		waitpid(chip, &status, 0);
 		free_comd(user_comd);
-		free(exe_file_path );
+		free(exe_file_path);
 	}
 	return (WEXITSTATUS(status));
 }

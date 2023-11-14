@@ -7,8 +7,8 @@
 int check_built(char *command)
 {
 	char *bui[] = { "exit", "env", "setenv", "unsetenv", "cd", NULL };
-
 	int i;
+
 	for (i = 0; bui[i]; i++)
 	{
 		if (_strcmp(command, bui[i]) == 0)
@@ -31,7 +31,7 @@ void get_builtin(char **command, char **argv, int *status)
 		print_env(command, status);
 	else if (_strcmp(command[0], "setenv") == 0)
 	{
-		if (command[1]== NULL || command[2] == NULL)
+		if (command[1] == NULL || command[2] == NULL)
 		{
 			_print("setenv: Invalid variable name or the value\n");
 			free_comd(command);
@@ -89,6 +89,7 @@ void exit_sh(char **command,  char **argv, int *status)
 	
 	if (command[1] == NULL)
 	{
+		free_comd(command);
 		exit(stat);
 	}
 	else

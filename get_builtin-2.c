@@ -11,7 +11,7 @@ void _unsetenv(char *varName)
 	if (!varName)
 	{
 		_print("Environment variable name not found.\n");
-		return ;
+		return;
 	}
 	while (environ[i])
 	{
@@ -52,13 +52,13 @@ void _cd(char *name)
 			if (chdir(pr_dir) != 0)
 			{
 				_print("cd: Cannot change directory \n");
-				return ;
+				return;
 			}
 		}
 		else
 		{
 			_print("cd: No previous directory to switch to\n");
-			return ;
+			return;
 		}
 	}
 	else
@@ -66,13 +66,13 @@ void _cd(char *name)
 		if (chdir(name) != 0)/*change directory*/
 		{
 			_print("cd: Cannot change directory \n");
-			return ;
+			return;
 		}
 	}
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		_print("cd: Error getting current working directory\n");
-		return ;
+		return;
 	}
 	_strcpy(pr_dir, cwd);
 	update_pwd(cwd);

@@ -23,7 +23,7 @@ int _isdigit(char c)
 }
 
 /**
- * only-digit - Check string
+ * only_digit - Check string
  * @c: An input string
  * Return: 1 if digit or 0 if not
 */
@@ -47,7 +47,7 @@ int _atoi(char *s)
 	char f = 0;
 
 	if (*s == '-')
-			sign *= -1;
+		sign *= -1;
 	while (*s)
 	{
 		if (*s >= '0' && *s <= '9')

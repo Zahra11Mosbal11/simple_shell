@@ -1,7 +1,7 @@
 #include "shell.h"
 /**
  * *_getenv - Check if the environment variable already exists
- * @name_env: the name of environment variable
+ * @env_var: the name of environment variable
  * Return: the value of it
  */
 char *_getenv(char *env_var)
@@ -46,7 +46,7 @@ char *search_path(char *command)
 		{
 			if (stat(command, &buf) == 0)
 				return (_strdup(command));
-			
+
 			return (NULL);
 		}
 	}
