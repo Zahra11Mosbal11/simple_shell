@@ -47,7 +47,7 @@ void exit_sh(char **command,  char **argv, int *status)
 		exit();
 	}
 	else
-		if (only_digit(command[1])
+		if (only_digit(command[1]))
 		{
 			free_comd(command);
 			exit(_atoi(command[1]));
