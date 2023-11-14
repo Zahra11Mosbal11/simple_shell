@@ -26,12 +26,13 @@ char *_read(void)
  */
 char **token_shz(char *input)
 {
-	char *tok = NULL, *cp_input =  _strdup(input), **user_cmad =  NULL;
+	char *tok = NULL, *cp_input =  NULL, **user_cmad =  NULL;
 	int cpi = 0, i = 0;
 	const char *delimit = " \t\n";
 
 	if (!input)
 		return (NULL);
+	cp_input =  _strdup(input);
 	tok = strtok(cp_input, delimit);
 	if (tok == NULL)
 	{

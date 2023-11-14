@@ -93,6 +93,7 @@ void exit_sh(char **command,  char **argv, int *status)
 		exit(stat);
 	}
 	else
+	{
 		if (only_digit(command[1]))
 		{
 			stat = _atoi(command[1]);
@@ -100,7 +101,13 @@ void exit_sh(char **command,  char **argv, int *status)
 			exit(stat);
 		}
 		else
+		{
+			stat = 2;
 			perror("Illegal number");
+			free_comd(command);
+			exit(stat);
+		}
+	}
 }
 /**
  * print_env - that print the each environment variable
