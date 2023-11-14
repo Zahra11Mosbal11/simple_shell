@@ -35,17 +35,24 @@ char **token_shz(char *input)
 		return (NULL);
 	cp_input = _strdup(input);
 	tok = strtok(cp_input, delimit);
+	if ( tok == NULL)
+	{
+		free(input);
+		free(cp_input);
+		return (NULL);
+	}
+
 	while (tok)
 	{
 		cpi++;
 		tok = strtok(NULL, delimit);
 	}
-	free(cp_input);
 
 	user_cmad = malloc(sizeof(char *) * (cpi + 1));
 	if (!user_cmad)
 	{
 		free(input);
+		free(cp_input);
 		return (NULL);
 	}
 	tok = strtok(input, delimit);
@@ -53,10 +60,15 @@ char **token_shz(char *input)
 	{
 		user_cmad[i] = _strdup(tok);
 		if (!user_cmad[i])
+		{
 			free_comd(user_cmad);
+			free(cp_input);
+			return (NULL);
+		}
 		tok = strtok(NULL, delimit);
 		i++;
 	}
+	free(cp_input);
 	free(input);
 	user_cmad[i] = NULL;
 	return (user_cmad);

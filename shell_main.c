@@ -27,12 +27,10 @@ int main(int ac, char **argv)
 		if (!user_comd)
 			continue;
 
-
 		if (user_comd[0] != NULL && check_built(user_comd[0]))
 			get_builtin(user_comd, argv, &status);
 		else if (user_comd[0] != NULL)
 			status = execute_comd(user_comd, argv);
-		free_comd(user_comd);
 	}
 
 }
