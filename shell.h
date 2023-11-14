@@ -11,6 +11,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#define BUF 1024
+
 extern char **environ;
 
 /* toem_string.c */
@@ -34,6 +36,10 @@ void get_builtin(char **command, char **argv, int *status);
 void exit_sh(char **command,  char **argv, int *status);
 void print_env(char **command, int *status);
 int check_built(char *command);
+void _setenv(char *varName, char *varValue, int overwrite);
+void _unsetenv(char *varName);
+void _cd(char *name);
+void update_pwd(char *pwd_new);
 
 int _isdigit(char c);
 int only_digit(char *c);
