@@ -38,6 +38,7 @@ int check_built(char *command);
 int _isdigit(char c);
 int only_digit(char *c);
 int _atoi(char *s);
+char *handle_comment(char *input);
 
 #endif /* SHELL_H */
 

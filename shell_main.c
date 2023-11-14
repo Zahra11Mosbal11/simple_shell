@@ -7,7 +7,7 @@
  */
 int main(int ac, char **argv)
 {
-	char *input = NULL, **user_comd = NULL;
+	char *input = NULL, **user_comd = NULL, input1 = NULL;
 	int status = 0;
 	(void) ac;
 
@@ -21,7 +21,8 @@ int main(int ac, char **argv)
 			return (status);
 		}
 
-		user_comd = token_shz(input);
+		input1 = handle_comment(input);
+		user_comd = token_shz(input1);
 
 		if (!user_comd)
 			continue;
