@@ -40,7 +40,6 @@ void get_builtin(char **command, char **argv, int *status)
  */
 void exit_sh(char **command,  char **argv, int *status)
 {
-	int st;
 	(void) argv;
 	
 	if (command[1] == NULL)
@@ -50,9 +49,8 @@ void exit_sh(char **command,  char **argv, int *status)
 	else
 		if (only_digit(command[1])
 		{
-			st = _atoi(command[1]);
 			free_comd(command);
-			exit(st);
+			exit(_atoi(command[1]));
 		}
 		else
 			perror("Illegal number");
