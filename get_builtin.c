@@ -53,7 +53,6 @@ void exit_sh(char **command,  char **argv, int *status)
 		if (only_digit(command[1]))
 		{
 			stat = _atoi(command[1]);
-			printf("exit");
 			free_comd(command);
 			exit(stat);
 		}
