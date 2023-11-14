@@ -38,7 +38,8 @@ int check_built(char *command);
 int _isdigit(char c);
 int only_digit(char *c);
 int _atoi(char *s);
-char *handle_comment(char *input);
+char *_comment(char *input);
+char *_strstr(char *haystack, char *needle);
 
 #endif /* SHELL_H */
 

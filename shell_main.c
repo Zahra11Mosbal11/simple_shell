@@ -21,7 +21,7 @@ int main(int ac, char **argv)
 			return (status);
 		}
 
-		input1 = handle_comment(input);
+		input1 = _comment(input);
 		user_comd = token_shz(input1);
 
 		if (!user_comd)
