@@ -5,7 +5,7 @@
  * @command: the command
  * Return: 1 if success
  */
- 
+
 int check_built(char *command)
 {
 	char *bui[] = { "exit", "env", "setenv", "unsetenv", "cd", NULL };
@@ -43,6 +43,7 @@ void get_builtin(char **command, char **argv, int *status)
 		{
 			char *name = command[1], *value = command[2];
 			int overwrite = 0;
+			
 			if (_getenv(name) != NULL)
 				overwrite = 1;
 			_setenv(name, value, overwrite);
@@ -65,12 +66,12 @@ void get_builtin(char **command, char **argv, int *status)
 		else
 		{
 			char *ch_dir = command[1];
+			
 			_cd(ch_dir);
 		}
 		free_comd(command);
 		(*status) = 0;
 	}
-
 }
 /**
  * exit_sh - to exit from the shell
@@ -82,8 +83,8 @@ void get_builtin(char **command, char **argv, int *status)
 void exit_sh(char **command,  char **argv, int *status)
 {
 	int stat = (*status);
-	char * str;
-	
+	char *str;
+
 	if (!command[1])
 	{
 		free_comd(command);
@@ -99,7 +100,7 @@ void exit_sh(char **command,  char **argv, int *status)
 		else
 		{
 			stat = 2;
-			str = argv[0] ;
+			str = argv[0];
 			_strcat(str, ": 1: ");
 			_strcat(str, "exit: Illegal number: ");
 			_strcat(str, command[1]);
