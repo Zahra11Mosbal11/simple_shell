@@ -55,7 +55,7 @@ void get_builtin(char **command, char **argv, int *status)
 	{
 		char *name = command[1];
 
-		_unsetenv(name);
+		unsetenv(name);
 		free_comd(command);
 		(*status) = 0;
 	}
