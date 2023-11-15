@@ -130,6 +130,8 @@ void free_comd(char **comd)
  */
 void _printerr(char *name, char *comd)
 {
-	char *str = name + ": 1: " + comd + ": not found\n";
+	char *str;
+	
+	str = name + ": 1: " + comd + ": not found\n";
 	write(STDERR_FILENO, str, _strlen(str));
 }
