@@ -143,22 +143,21 @@ void print_env(char **command, int *status)
 void _setenv(char *varName, char *varValue, int overwrite)
 {
 	int i = 0, len = 0;
-	char new_env[256];
+	char *new_env;
 
 	while (environ[i])
 	{
-		len = s_strlen(varName);
-		if (_strncmp(environ[i], varName, len) == 0)
+		len = _strlen(varName);
+		if (strncmp(environ[i], varName, len) == 0)
 		{
 			if (overwrite)
 			{
 				free(environ[i]);
 
-				/*new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);*/
-				s_strcpy(new_env, varName);
-				s_strcat(new_env, "=");
-				s_strcat(new_env, varValue);
-				s_strcat(new_env, "\0");
+				new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
+				_strcpy(new_env, varName);
+				_strcat(new_env, "=");
+				_strcat(new_env, varValue);
 
 				environ[i] = new_env;
 				return;
@@ -167,13 +166,11 @@ void _setenv(char *varName, char *varValue, int overwrite)
 		}
 		i++;
 	}
-	free(environ[i]);
-	/*new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);*/
-	s_strcpy(new_env, varName);
-	s_strcat(new_env, "=");
-	s_strcat(new_env, varValue);
-	s_strcat(new_env, "\0");
+
+	new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
+	_strcpy(new_env, varName);
+	_strcat(new_env, "=");
+	_strcat(new_env, varValue);
 	environ[i] = new_env;
 	environ[i + 1] = NULL;
-
 }

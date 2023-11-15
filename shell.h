@@ -23,11 +23,6 @@ char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *sec);
 char *_strdup(const char *str);
 void _print(char *msg);
-int _strncmp(const char *s1, const char *s2, size_t n);
-size_t s_strlen(const char *str);
-void s_strcpy(char *dest, const char *src);
-void s_strcat(char *dest, const char *src);
-
 /*main functions*/
 char *_read(void);
 char **token_shz(char *input);
