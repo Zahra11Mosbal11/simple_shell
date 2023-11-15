@@ -1,9 +1,11 @@
 #include "shell.h"
+
 /**
  * check_built - to check the builtins
  * @command: the command
  * Return: 1 if success
  */
+ 
 int check_built(char *command)
 {
 	char *bui[] = { "exit", "env", "setenv", "unsetenv", "cd", NULL };
@@ -39,10 +41,8 @@ void get_builtin(char **command, char **argv, int *status)
 		}
 		else
 		{
-
 			char *name = command[1], *value = command[2];
 			int overwrite = 0;
-
 			if (_getenv(name) != NULL)
 				overwrite = 1;
 			_setenv(name, value, overwrite);
@@ -65,7 +65,6 @@ void get_builtin(char **command, char **argv, int *status)
 		else
 		{
 			char *ch_dir = command[1];
-
 			_cd(ch_dir);
 		}
 		free_comd(command);
@@ -152,7 +151,7 @@ void _setenv(char *varName, char *varValue, int overwrite)
 		{
 			if (overwrite)
 			{
-				free(environ[i]); 
+				free(environ[i]);
 
 				new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
 				_strcpy(new_env, varName);
