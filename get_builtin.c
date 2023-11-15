@@ -83,6 +83,7 @@ void get_builtin(char **command, char **argv, int *status)
 void exit_sh(char **command,  char **argv, int *status)
 {
 	int stat = (*status);
+	char * str;
 	
 	if (!command[1])
 	{
@@ -99,13 +100,12 @@ void exit_sh(char **command,  char **argv, int *status)
 		else
 		{
 			stat = 2;
-			_print(argv[0]);
-			_print(": ");
-			_print("1");
-			_print(": ");
-			_print("exit: Illegal number: ");
-			_print(command[1]);
-			_print("\n");
+			str = argv[0] ;
+			_strcat(str, ": 1: ");
+			_strcat(str, "exit: Illegal number: ");
+			_strcat(str, command[1]);
+			_strcat(str, "\n");
+			write(STDERR_FILENO, str, _strlen(str));
 			free_comd(command);
 			(*status) = 2;
 			return;
