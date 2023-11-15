@@ -132,9 +132,9 @@ void _printerr(char *name, char *comd)
 {
 	char *str;
 	
-	str = name;
-	str += ": 1: ";
-	str += comd;
-	str += ": not found\n";
+	str = name ;
+	_strcat(str, ": 1: ");
+	_strcat(str, comd );
+	_strcat(str, ": not found\n");
 	write(STDERR_FILENO, str, _strlen(str));
 }
