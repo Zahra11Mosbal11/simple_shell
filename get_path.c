@@ -51,8 +51,6 @@ char *search_path(char *command)
 		}
 	}
 	path = _getenv("PATH");
-	if (!path)
-		return (NULL);
 	path_dr = strtok(path, ":");
 	while (path_dr)
 	{
