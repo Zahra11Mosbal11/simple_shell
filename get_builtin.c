@@ -46,7 +46,7 @@ void get_builtin(char **command, char **argv, int *status)
 
 			if (_getenv(name) != NULL)
 				overwrite = 1;
-			_setenv(name, value, overwrite);
+			setenv(name, value, overwrite);
 			free_comd(command);
 			(*status) = 0;
 		}
