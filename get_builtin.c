@@ -82,14 +82,12 @@ void get_builtin(char **command, char **argv, int *status)
  */
 void exit_sh(char **command,  char **argv, int *status)
 {
-	int stat = 0;
-
-	(void) argv;
-	(void) status;
+	int stat = (*status);
 	
-	if (command[1] == NULL)
+	if (!command[1])
 	{
 		free_comd(command);
+		(*status) = 0;
 		exit(stat);
 	}
 	else
@@ -97,16 +95,23 @@ void exit_sh(char **command,  char **argv, int *status)
 		if (only_digit(command[1]))
 		{
 			stat = _atoi(command[1]);
-			free_comd(command);
-			exit(stat);
 		}
 		else
 		{
 			stat = 2;
-			perror("Illegal number");
+			_print(argv[0]);
+			_print(": ");
+			_print("1");
+			_print(": ");
+			_print("exit: Illegal number: ");
+			_print(command[1]);
+			_print("\n");
 			free_comd(command);
-			exit(stat);
+			(*status) = 2;
+			return;
 		}
+		free_comd(command);
+		exit(stat);
 	}
 }
 /**
