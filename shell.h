@@ -39,7 +39,6 @@ int check_built(char *command);
 void _setenv(char *varName, char *varValue, int overwrite);
 void _unsetenv(char *varName);
 void _cd(char **command, int *status);
-void free_cwd(char *cwd);
 
 int _isdigit(char c);
 int only_digit(char *c);

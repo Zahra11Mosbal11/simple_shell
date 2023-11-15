@@ -82,12 +82,3 @@ void _cd(char **command, int *status)
 	free(dir);
 	free_comd(command);
 }
-/**
- * free_cwd - to free the cwd
- * @cwd: the env
- * Return: void
- */
-void free_cwd(char *cwd)
-{
-	free(cwd);
-}
