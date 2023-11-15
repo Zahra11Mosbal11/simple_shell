@@ -41,7 +41,6 @@ void _unsetenv(char *varName);
 void _cd(char **command, int *status);
 void free_cwd(char *cwd);
 
-char *my_strdup(const char *str);
 int _isdigit(char c);
 int only_digit(char *c);
 int _atoi(char *s);
