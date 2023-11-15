@@ -41,7 +41,7 @@ void _unsetenv(char *varName)
  */
 void _cd(char **command, int *status)
 {
-	char *str, *dir, buffer[1024], *cwd_copy;
+	char *str, *dir = NULL, buffer[1024], *cwd_copy;
 	int chdir_ret;
 
 	str = getcwd(buffer, 1024);
@@ -49,24 +49,29 @@ void _cd(char **command, int *status)
 	{
 		dir = _getenv("HOME");
 		if (!dir)
-			chdir_ret = chdir((dir = _getenv("PWD")) ? dir : "/");
+		{
+			dir = _getenv("PWD");
+			chdir_ret = chdir(dir);
+		}
 		else
 			chdir_ret = chdir(dir);
 	}
-	else if (strcmp(command[1], "-") == 0)
+	else if (_strcmp(command[1], "-") == 0)
 	{
 		if (!_getenv("OLDPWD"))
 		{
 			_print(str);
 			_print("\n");
 			*status = 1;
+			free_cwd(_getenv("OLDPWD"));
 			free_comd(command);
 			free(str);
 			return;
 		}
 		_print(_getenv("OLDPWD"));
 		_print("\n");
-		chdir_ret = chdir((dir = _getenv("OLDPWD")) ? dir : "/");
+		dir = _getenv("OLDPWD");
+		chdir_ret = chdir(dir);
 	}
 	else
 		chdir_ret = chdir(command[1]);

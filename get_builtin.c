@@ -60,9 +60,7 @@ void get_builtin(char **command, char **argv, int *status)
 		(*status) = 0;
 	}
 	else if (_strcmp(command[0], "cd") == 0)
-	{
 		_cd(command, status);
-	}
 }
 /**
  * exit_sh - to exit from the shell
@@ -134,7 +132,7 @@ void print_env(char **command, int *status)
 void _setenv(char *varName, char *varValue, int overwrite)
 {
 	int i = 0, len = 0;
-	char *new_env;
+	char new_env[200];
 
 	while (environ[i])
 	{
@@ -145,11 +143,9 @@ void _setenv(char *varName, char *varValue, int overwrite)
 			{
 				free(environ[i]);
 
-				new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
 				_strcpy(new_env, varName);
 				_strcat(new_env, "=");
 				_strcat(new_env, varValue);
-
 				environ[i] = new_env;
 				return;
 			}
@@ -157,7 +153,6 @@ void _setenv(char *varName, char *varValue, int overwrite)
 		}
 		i++;
 	}
-	new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
 	_strcpy(new_env, varName);
 	_strcat(new_env, "=");
 	_strcat(new_env, varValue);
