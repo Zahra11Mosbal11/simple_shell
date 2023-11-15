@@ -132,6 +132,7 @@ void _printerr(char *name, char *comd)
 {
 	char *str;
 	
-	str = name + ": 1: " + comd + ": not found\n";
+	str = name;
+	str += ": 1: " + comd + ": not found\n";
 	write(STDERR_FILENO, str, _strlen(str));
 }
