@@ -43,7 +43,7 @@ void get_builtin(char **command, char **argv, int *status)
 		{
 			char *name = command[1], *value = command[2];
 			int overwrite = 0;
-			
+
 			if (_getenv(name) != NULL)
 				overwrite = 1;
 			_setenv(name, value, overwrite);
@@ -56,19 +56,6 @@ void get_builtin(char **command, char **argv, int *status)
 		char *name = command[1];
 
 		_unsetenv(name);
-		free_comd(command);
-		(*status) = 0;
-	}
-	else if (_strcmp(command[0], "cd") == 0)
-	{
-		if (command[1] == NULL)
-			chdir(_getenv("HOME"));
-		else
-		{
-			char *ch_dir = command[1];
-			
-			_cd(ch_dir);
-		}
 		free_comd(command);
 		(*status) = 0;
 	}
@@ -166,7 +153,6 @@ void _setenv(char *varName, char *varValue, int overwrite)
 		}
 		i++;
 	}
-
 	new_env = malloc(_strlen(varName) + _strlen(varValue) + 2);
 	_strcpy(new_env, varName);
 	_strcat(new_env, "=");

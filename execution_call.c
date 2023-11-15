@@ -56,12 +56,6 @@ char **token_shz(char *input)
 	while (tok)
 	{
 		user_cmad[i] = _strdup(tok);
-		if (!user_cmad[i])
-		{
-			free_comd(user_cmad);
-			free(cp_input);
-			return (NULL);
-		}
 		tok = strtok(NULL, delimit);
 		i++;
 	}
@@ -131,10 +125,10 @@ void free_comd(char **comd)
 void _printerr(char *name, char *comd)
 {
 	char *str;
-	
-	str = name ;
+
+	str = name;
 	_strcat(str, ": 1: ");
-	_strcat(str, comd );
+	_strcat(str, comd);
 	_strcat(str, ": not found\n");
 	write(STDERR_FILENO, str, _strlen(str));
 }

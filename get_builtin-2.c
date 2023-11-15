@@ -90,5 +90,5 @@ void update_pwd(char *pwd_new)
 		return;
 	}
 
-	_setenv("PWD", pwd_new, 1);
+	/*_setenv("PWD", pwd_new, 1);*/
 }
