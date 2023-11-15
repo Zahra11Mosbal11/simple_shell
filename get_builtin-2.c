@@ -35,60 +35,68 @@ void _unsetenv(char *varName)
 }
 /**
  * _cd - to change directory
- * @name: the name of directory
+ * @command:  the command
+ * @status: the status
  * Return: 0 in success
  */
-void _cd(char *name)
+void _cd(char **command, int *status)
 {
-	char pr_dir[BUF];
-	char cwd[BUF];
+	char *str, *dir, buffer[1024], *cwd_copy;
+	int chdir_ret;
 
-	if (_strcmp(name, "-") == 0)
-	{/* Handle 'cd -'*/
-		if (pr_dir[0] != '\0')
-		{
-			_print(pr_dir); /* Print the directory being switched to*/
-			_print("\n");
-			if (chdir(pr_dir) != 0)
-			{
-				_print("cd: Cannot change directory \n");
-				return;
-			}
-		}
+	str = getcwd(buffer, 1024);
+	if (!command[1])
+	{
+		dir = _getenv("HOME");
+		if (!dir)
+			chdir_ret = chdir((dir = _getenv("PWD")) ? dir : "/");
 		else
+			chdir_ret = chdir(dir);
+	}
+	else if (strcmp(command[1], "-") == 0)
+	{
+		if (!_getenv("OLDPWD"))
 		{
-			_print("cd: No previous directory to switch to\n");
+			_print(str);
+			_print("\n");
+			*status = 1;
+			free_comd(command);
+			free(str);
 			return;
 		}
+		_print(_getenv("OLDPWD"));
+		_print("\n");
+		chdir_ret = chdir((dir = _getenv("OLDPWD")) ? dir : "/");
+	}
+	else
+		chdir_ret = chdir(command[1]);
+
+	if (chdir_ret == -1)
+	{
+        	_print("cd: Cannot change directory to: ");
+        	_print(command[1]); 
+		_print("\n");
+        	*status = 1;
 	}
 	else
 	{
-		if (chdir(name) != 0)/*change directory*/
-		{
-			_print("cd: Cannot change directory \n");
-			return;
-		}
+		cwd_copy = _strdup(getcwd(buffer, 1024));
+		free_cwd(_getenv("OLDPWD"));
+		setenv("OLDPWD", _getenv("PWD"), 1);
+		free_cwd(_getenv("PWD"));
+		setenv("PWD", cwd_copy, 1);
+		free(cwd_copy);
+		*status = 0;
 	}
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		_print("cd: Error getting current working directory\n");
-		return;
-	}
-	_strcpy(pr_dir, cwd);
-	update_pwd(cwd);
+	free(dir);
+	free_comd(command);
 }
 /**
- * update_pwd - to update current working directory
- * @pwd_new: the new pwd
+ * free_cwd - to free the cwd
+ * @cwd: the env
  * Return: void
  */
-void update_pwd(char *pwd_new)
+void free_cwd(char *cwd)
 {
-	if (pwd_new == NULL)
-	{
-		_print("cd: Error updating PWD\n");
-		return;
-	}
-
-	/*_setenv("PWD", pwd_new, 1);*/
+	free(cwd);
 }
