@@ -30,8 +30,12 @@ int main(int ac, char **argv)
 		if (user_comd[0] != NULL && check_built(user_comd[0]))
 			get_builtin(user_comd, argv, &status);
 		else
-			if (user_comd[0] != NULL)
-				status = execute_comd(user_comd, argv);
+			if ((_strcmp(user_comd[0], "echo") == 0) &&
+		(_strcmp(user_comd[0], "$$") || _strcmp(user_comd[0], "$?")))
+				get_var(user_comd, status);
+			else
+				if (user_comd[0] != NULL)
+					status = execute_comd(user_comd, argv);
 	}
 
 }
