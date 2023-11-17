@@ -60,7 +60,7 @@ void get_builtin(char **command, char **argv, int *status)
 		(*status) = 0;
 	}
 	else if (_strcmp(command[0], "cd") == 0)
-		_cd(command, status);
+		_cd(command, argv, status);
 }
 /**
  * exit_sh - to exit from the shell

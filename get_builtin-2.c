@@ -39,7 +39,7 @@ void _unsetenv(char *varName)
  * @status: the status
  * Return: 0 in success
  */
-void _cd(char **command, int *status)
+void _cd(char **command, char **argv, int *status)
 {
 	char *dir, cwd[1024], cwd1[1024];
 	int chdir_ret = -1;
@@ -70,7 +70,7 @@ void _cd(char **command, int *status)
 		chdir_ret = chdir(command[1]);
 	if (chdir_ret == -1)
 	{
-		_print("./hsh: 1: cd: can't cd to ");
+		_print(argv[0]), _print(": 1: cd: can't cd to ");
 		_print(command[1]), _print("\n"), (*status) = 1, free_comd(command);
 		return;
 	}
