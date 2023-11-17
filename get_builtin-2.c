@@ -49,7 +49,7 @@ void _cd(char **command, int *status)
 	{
 		dir = _getenv("HOME");
 		if (!dir)
- 			chdir_ret = chdir((dir = _getenv("PWD")) ? dir : "/");
+			chdir_ret = chdir((dir = _getenv("PWD")) ? dir : "/");
 		else
 			chdir_ret = chdir(dir);
 		free(dir);
@@ -60,9 +60,7 @@ void _cd(char **command, int *status)
 		if (!dir)
 		{
 			_print(cwd1), _print("\n"), (*status) = 1;
- 			free(dir);
-			free_comd(command);
- 			return;
+			free(dir), free_comd(command), return;
 		}
 		_print(dir), _print("\n");
 		chdir_ret = chdir(dir);
@@ -72,19 +70,15 @@ void _cd(char **command, int *status)
 		chdir_ret = chdir(command[1]);
 	if (chdir_ret == -1)
 	{
-		_print("./hsh: 1: cd: can't cd to");
+		_print("./hsh: 1: cd: can't cd to ");
 		_print(command[1]), _print("\n"), (*status) = 1;
-		free_comd(command);
-		return;
+		free_comd(command), return;
 	}
 	else if (chdir_ret != -1)
 	{
 		getcwd(cwd, sizeof(cwd));
-		dir = _getenv("PWD");
-		setenv("OLDPWD", dir, 1);
-		setenv("PWD", cwd, 1);
-		(*status) = 0;
+		dir = _getenv("PWD"), setenv("OLDPWD", dir, 1);
+		setenv("PWD", cwd, 1), (*status) = 0;
 	}
-	free(dir);
-	free_comd(command);
+	free(dir), free_comd(command);
 }
