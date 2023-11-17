@@ -44,9 +44,8 @@ int _isdigit(char c);
 int only_digit(char *c);
 int _atoi(char *s);
 char *_comment(char *input);
-void get_var (char **command, int status);
+void get_var(char **command, int status);
 void printInt(int num);
 char *_strstr(char *haystack, char *needle);
 
 #endif /* SHELL_H */
-
