@@ -37,6 +37,7 @@ void _unsetenv(char *varName)
  * _cd - to change directory
  * @command:  the command
  * @status: the status
+ * @argv: the argumment
  * Return: 0 in success
  */
 void _cd(char **command, char **argv, int *status)
@@ -71,7 +72,7 @@ void _cd(char **command, char **argv, int *status)
 	if (chdir_ret == -1)
 	{
 		_print(argv[0]), _print(": 1: cd: can't cd to ");
-		_print(command[1]), _print("\n"), (*status) = 1, free_comd(command);
+		_print(command[1]), _print("\n"), (*status) = 2, free_comd(command);
 		return;
 	}
 	else if (chdir_ret != -1)
