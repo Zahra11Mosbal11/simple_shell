@@ -41,29 +41,21 @@ void _unsetenv(char *varName)
  */
 void _cd(char **command, int *status)
 {
-	char *str, *dir = NULL, buffer[1024], *cwd_copy;
-	int chdir_ret;
+	char *dir, cwd[1024];
+	int chdir_ret = -1;
 
-	str = getcwd(buffer, 1024);
 	if (!command[1])
 	{
 		dir = _getenv("HOME");
-		if (!dir)
-			chdir_ret = chdir((dir = _getenv("PWD")) ? dir : "/");
-		else
-			chdir_ret = chdir(dir);
+		chdir_ret = chdir(dir);
+		free(dir);
 	}
 	else if (_strcmp(command[1], "-") == 0)
 	{
-		if (!_getenv("OLDPWD"))
-		{
-			_print(str), _print("\n"), (*status) = 1;
-			free_comd(command);
-			return;
-		}
-		_print(_getenv("OLDPWD")), _print("\n");
 		dir = _getenv("OLDPWD");
+		_print(dir), _print("\n");
 		chdir_ret = chdir(dir);
+		free(dir);
 	}
 	else
 		chdir_ret = chdir(command[1]);
@@ -71,13 +63,16 @@ void _cd(char **command, int *status)
 	{
 		_print("cd: Cannot change directory to: ");
 		_print(command[1]), _print("\n"), (*status) = 1;
+		free_comd(command);
+		return;
 	}
-	else
+	else if (chdir_ret != -1)
 	{
-		cwd_copy = _strdup(getcwd(buffer, 1024));
-		setenv("OLDPWD", _getenv("PWD"), 1);
-		setenv("PWD", cwd_copy, 1);
-		free(cwd_copy), (*status) = 0;
+		getcwd(cwd, sizeof(cwd));
+		dir = _getenv("PWD");
+		setenv("OLDPWD", dir, 1);
+		setenv("PWD", cwd, 1);
+		(*status) = 0;
 	}
 	free(dir);
 	free_comd(command);
